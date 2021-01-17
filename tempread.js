@@ -1,13 +1,28 @@
-var sensor = require("node-dht-sensor");
+const sensor = require("node-dht-sensor").promises;
  
-sensor.read(22, 27, function(err, temperature, humidity) {
-  if (!err) {
-    console.log(`Sensore interno temp: ${temperature}°C, humidity: ${humidity}%`);
+module.exports.tempint = async function exec() {
+  try {
+    const res = await sensor.read(22, 17);
+    console.log(
+      `temp: ${res.temperature.toFixed(1)}°C, ` +
+        `humidity: ${res.humidity.toFixed(1)}%`
+    );
+    return res;
+  } catch (err) {
+    console.error("Failed to read sensor data:", err);
   }
-});
+}
 
-sensor.read(22, 17, function(err, temperature, humidity) {
-    if (!err) {
-      console.log(`Sensore esterno temp: ${temperature}°C, humidity: ${humidity}%`);
+module.exports.tempext = async function exec() {
+    try {
+      const res = await sensor.read(22, 27);
+      console.log(
+        `temp: ${res.temperature.toFixed(1)}°C, ` +
+          `humidity: ${res.humidity.toFixed(1)}%`
+      );
+      return res;
+    } catch (err) {
+      console.error("Failed to read sensor data:", err);
     }
-  });
+  }
+ 
