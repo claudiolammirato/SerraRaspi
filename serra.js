@@ -13,7 +13,7 @@ app.set('view engine', 'ejs');
 async function retrieve_values () {
     const tint = await tempint();
     const text = await tempext();
-    const moisture = await analog;
+    const moisture = await analog();
     //console.log(moisture)
     //console.log(tint);
     //console.log(text);
@@ -29,7 +29,9 @@ app.get('/', function(req, res) {
     tinthum: tint.humidity.toFixed(1),
     tinttemp: tint.temperature.toFixed(1), 
     texthum: text.humidity.toFixed(1), 
-    texttemp: text.temperature.toFixed(1)
+    texttemp: text.temperature.toFixed(1),
+    light: moisture[0],
+    moisture: moisture[1]
   })});
   
 });

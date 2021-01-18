@@ -8,6 +8,6 @@ lcd.beginSync();
 // Clear any previously displayed content
 lcd.clearSync();
 // Display text multiline
-lcd.printLineSync(0, 'hello');
-lcd.printLineSync(1, 'world!');
+lcd.printLineSync(0, 'SmartSerra');
+lcd.printLineSync(1, 'claudio!');
 
