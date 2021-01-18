@@ -12,52 +12,66 @@
   </head>
   <body>
     <%- include('partials/header') %>
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="text-center">
-                Internal Humidity: <%= tinthum %>%
+    <div style="height: 100px; background-color: rgba(255,0,0,0.1);">
+
+        <div class="row align-items-center h-100">
+            <div class="col">
+                <div class="text-center">
+                    Internal Humidity: <%= tinthum %>%
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="text-center">
-                Internal Temperature: <%= tinttemp %>°C
+            <div class="col">
+                <div class="text-center">
+                    Internal Temperature: <%= tinttemp %>°C
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="text-center">
-                External Humidity: <%= texthum %>%
+            <div class="col">
+                <div class="text-center">
+                    External Humidity: <%= texthum %>%
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="text-center">
-                External Temperature: <%= texttemp %>°C
+            <div class="col">
+                <div class="text-center">
+                    External Temperature: <%= texttemp %>°C
+                </div>
             </div>
         </div>
     </div>
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="text-center">
-                <button type="button" class="btn btn-success">Light Switch ON</button>
+    <div style="height: 200px; background-color: rgba(0, 140, 255, 0.671);">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="text-center">
+                    <form action="/lighton" method="POST">
+                        <button type="submit"  class="btn btn-success">Light Switch ON</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-center">
+                    <form action="/lightoff" method="POST">
+                        <button type="submit" class="btn btn-danger">Light Switch OFF</button>
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-center">
+                    <button type="button" class="btn btn-secondary btn-lg" disabled>Disabled</button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-center">
+                    <button type="button" class="btn btn-secondary btn-lg" disabled>Disabled</button>
+                </div>
             </div>
         </div>
-        <div class="col">
-            <div class="text-center">
-                <button type="button" class="btn btn-danger">Light Switch OFF</button>
-            </div>
-        </div>
-        <div class="col">
-            <div class="text-center">
-                <button type="button" class="btn btn-secondary btn-lg" disabled>Button</button>
-            </div>
-        </div>
-        <div class="col">
-            <div class="text-center">
-                <button type="button" class="btn btn-secondary btn-lg" disabled>Button</button>
-            </div>
-        </div>
-    </div>        
+    </div>   
+  
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
    
+    
+        
+
   </body>
 </html>

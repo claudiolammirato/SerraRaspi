@@ -5,12 +5,12 @@ const port = 3000
 //Import own function and values
 const {tempint, tempext} = require('./tempread');
 const {analog} = require('./ads1115')
-
+const light = require('./relay');
 //ejs setting
 app.set('view engine', 'ejs');
 
 //async function retrieve data
-async function appasync () {
+async function retrieve_values () {
     const tint = await tempint();
     const text = await tempext();
     const moisture = await analog;
@@ -25,7 +25,7 @@ async function appasync () {
 //routes
 app.get('/', function(req, res) {
  
-  appasync().then(function([tint, text, moisture]) {res.render('serra.ejs', {
+  retrieve_values().then(function([tint, text, moisture]) {res.render('serra.ejs', {
     tinthum: tint.humidity.toFixed(1),
     tinttemp: tint.temperature.toFixed(1), 
     texthum: text.humidity.toFixed(1), 
@@ -33,6 +33,16 @@ app.get('/', function(req, res) {
   })});
   
 });
+
+app.post('/lighton', async function(req, res) {
+    await light.LightOn();
+    res.redirect('/');
+})
+
+app.post('/lightoff', async function(req, res) {
+  await light.LightOff();
+  res.redirect('/');
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
