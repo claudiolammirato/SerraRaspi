@@ -5,9 +5,9 @@ let stopBlinking = false;
 // Toggle the state of the LED connected to GPIO17 every 200ms
 module.exports.LightOn = function exec() {
   try {
-    if(led === undefined){
+    
   const led = new Gpio(25, 'out');
-    }
+    
   if (stopBlinking) {
     return led.unexport();
   }

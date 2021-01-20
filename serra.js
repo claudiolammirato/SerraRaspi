@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 4000
 
 //Import own function and values
 const {tempint, tempext} = require('./tempread');
@@ -25,7 +25,7 @@ async function retrieve_values () {
 //routes
 app.get('/', function(req, res) {
  
-  retrieve_values().then(function([tint, text, moisture]) {res.render('serra.ejs', {
+retrieve_values().then(function([tint, text, moisture]) {res.render('serra.ejs', {
     tinthum: tint.humidity.toFixed(1),
     tinttemp: tint.temperature.toFixed(1), 
     texthum: text.humidity.toFixed(1), 
