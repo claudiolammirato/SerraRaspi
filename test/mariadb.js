@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: require('find-config')('.env') })
 
 var mysql = require('mysql');
     var con = mysql.createConnection({
@@ -26,6 +26,14 @@ var mysql = require('mysql');
       if (err) throw err;
       console.log(result);
     });
+
+    con.query("INSERT INTO parameters_table (name, value) VALUES('Claudio', 100); ", function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);
+    });
+
+    
+
     con.end();
 
 
