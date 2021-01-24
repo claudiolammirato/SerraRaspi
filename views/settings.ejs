@@ -13,5 +13,31 @@
   <body>
     <%- include('partials/header') %>
 
+    <h2>Serra Settings</h2>
+
+      <form action="/settingssave" method="post">
+        <label for="fname">Name:</label><br>
+        <input type="text" id="name" name="name" value="<%= name %>"<br><br>
+        <label for="lname">Email:</label><br>
+        <input type="text" id="email" name="email" value="<%= email %>"><br><br>
+        <label for="lname">Light PIN:</label><br>
+        <input type="text" id="light" name="light" value="<%= light %>"><br><br>
+        <label for="lname">Temperature Int PIN:</label><br>
+        <input type="text" id="tempint" name="tempint" value="<%= tempint %>"><br><br>
+        <label for="lname">Temperature Ext PIN:</label><br>
+        <input type="text" id="tempext" name="tempext" value="<%= tempext %>"><br><br>
+        <label for="lname">Timer:</label><br>
+          <select name="timer" id="timer">
+            <option>ON</option>
+            <option>OFF</option>
+            <option selected="selected">
+              <%= timer %>
+              </option>
+          </select>
+        <input type="submit" value="Save">
+      </form> 
+
+      <p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+
 </body>
 </html>

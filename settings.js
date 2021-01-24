@@ -1,12 +1,13 @@
 var fs = require('fs');
 
-module.exports.writeData = function writeData(name, email, light, temp_int, temp_ext){
+module.exports.writeData = function writeData(name, email, light, temp_int, temp_ext, timer){
     var myOptions = {
         name: name,
         email: email,
         light: light,
         temp_int: temp_int,
-        temp_ext: temp_ext
+        temp_ext: temp_ext,
+        timer: timer
       };
       
       var data = JSON.stringify(myOptions);
@@ -24,6 +25,7 @@ module.exports.readData = function readData(){
     const dataread =  fs.readFileSync('./config.json', {encoding:'utf8', flag:'r'}); 
     
     // Display the file data 
-    console.log(dataread); 
+    //console.log(dataread); 
+    return dataread;
 }
 
