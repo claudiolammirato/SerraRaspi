@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const port = 4000
+const port = 3000
 
 //Import own function and values
 const {tempint, tempext} = require('./tempread');
@@ -10,6 +10,7 @@ const relay = require('./relay');
 const database = require('./database')
 const lcd = require('./lcd')
 const settings = require('./settings')
+const timer_l = require('./timer_light')
 
 //ejs setting
 app.set('view engine', 'ejs');
@@ -30,6 +31,32 @@ async function retrieve_values () {
     //console.log(text);
     return [tint, text, moisture];
 }
+
+//set Timer
+async function timerLight() {
+  //sconsole.log('dentro')
+  const values = settings.readData()
+  let val = JSON.parse(values);
+  if(val.timer == 'ON'){
+    //console.log(val.timersd.split('-')[1])
+    const hs = Number(val.timersh.split(':')[0])
+    const mins = Number(val.timersh.split(':')[1])
+    const ys = Number(val.timersd.split('-')[0])
+    const ms = Number(val.timersd.split('-')[1])
+    const ds = Number(val.timersd.split('-')[2])
+
+    const he = Number(val.timereh.split(':')[0])
+    const mine = Number(val.timereh.split(':')[1])
+    const ye = Number(val.timered.split('-')[0])
+    const me = Number(val.timered.split('-')[1])
+    const de= Number(val.timered.split('-')[2])
+    
+    //console.log(Date(y, m, d, h, min))
+    timer_l.triggerON(new Date(ys, ms-1, ds, hs, mins),new Date(ye, me-1, de, he, mine))
+  } 
+}
+setInterval(timerLight, 30000);
+
 
 //Insert Data in Database every 30 minutes
 async function data1() {
@@ -92,21 +119,25 @@ retrieve_values().then(function([tint, text, moisture]) {res.render('serra.ejs',
 app.get('/settings', function(req, res) {
   const values = settings.readData()
   let val = JSON.parse(values);
-  console.log(val)
+  //console.log(val.Dstop)
   res.render('settings.ejs', {
     name: val.name,
     email: val.email,
     light: val.light,
     tempint: val.temp_int,
     tempext: val.temp_ext,
-    timer: val.timer
+    timer: val.timer,
+    timersh: val.timersh,
+    timersd: val.timersd,
+    timereh: val.timereh,
+    timered: val.timered
   }) 
     
 });
 
 app.post('/settingssave', function(req, res) {
-  console.log(req.body.name)
-  settings.writeData(req.body.name, req.body.email, req.body.light, req.body.tempint, req.body.tempext, req.body.timer)
+  //console.log(req.body.name)
+  settings.writeData(req.body.name, req.body.email, req.body.light, req.body.tempint, req.body.tempext, req.body.timer, req.body.Tstart, req.body.Dstart, req.body.Tstop, req.body.Dstop)
   res.redirect('settings')   
 });
 

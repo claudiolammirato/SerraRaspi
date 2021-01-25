@@ -1,8 +1,14 @@
 const sensor = require("node-dht-sensor").promises;
+const settings = require('./settings')
+
+const values = settings.readData()
+let val = JSON.parse(values);
+//console.log(val)
  
 module.exports.tempint = async function exec() {
   try {
-    const res = await sensor.read(22, 17);
+    const int_pin = Number(val.temp_int)
+    const res = await sensor.read(22, int_pin);
     //console.log(
       //`temp: ${res.temperature.toFixed(1)}°C, ` +
         //`humidity: ${res.humidity.toFixed(1)}%`
@@ -15,7 +21,8 @@ module.exports.tempint = async function exec() {
 
 module.exports.tempext = async function exec() {
     try {
-      const res = await sensor.read(22, 27);
+      const ext_pin = Number(val.temp_ext)
+      const res = await sensor.read(22, ext_pin);
       //console.log(
         //`temp: ${res.temperature.toFixed(1)}°C, ` +
           //`humidity: ${res.humidity.toFixed(1)}%`

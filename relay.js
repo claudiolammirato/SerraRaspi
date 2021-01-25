@@ -1,11 +1,15 @@
 const Gpio = require('onoff').Gpio; // Gpio class
+const settings = require('./settings')
+
+const values = settings.readData()
+let val = JSON.parse(values);
        // Export GPIO17 as an output
 let stopBlinking = false;
  
 // Toggle the state of the LED connected to GPIO17 every 200ms
 module.exports.LightOn = function exec() {
   try {
-    
+  const light = Number(val.light)
   const led = new Gpio(25, 'out');
     
   if (stopBlinking) {
@@ -13,7 +17,7 @@ module.exports.LightOn = function exec() {
   }
  
   led.read((err, value) => { // Asynchronous read
-    console.log(value)
+    //console.log(value)
     if (err) {
       throw err;
     }
@@ -41,7 +45,7 @@ module.exports.LightOff = function exec() {
     }
    
     led.read((err, value) => { // Asynchronous read
-      console.log(value)
+      //console.log(value)
       if (err) {
         throw err;
       }

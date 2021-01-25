@@ -17,7 +17,7 @@
 
       <form action="/settingssave" method="post">
         <label for="fname">Name:</label><br>
-        <input type="text" id="name" name="name" value="<%= name %>"<br><br>
+        <input type="text" id="name" name="name" value="<%= name %>"><br><br>
         <label for="lname">Email:</label><br>
         <input type="text" id="email" name="email" value="<%= email %>"><br><br>
         <label for="lname">Light PIN:</label><br>
@@ -33,7 +33,13 @@
             <option selected="selected">
               <%= timer %>
               </option>
-          </select>
+          </select><br>
+        <label for="lname">Timer Start:</label><br>
+        <input type="time" id="Tstart" name="Tstart" value="<%= timersh %>"><br><br>
+        <input type="date" id="Dstart" name="Dstart" value="<%= timersd %>"><br><br>
+        <label for="lname">Timer End:</label><br>
+        <input type="time" id="Tstop" name="Tstop" value="<%= timereh %>"><br><br>
+        <input type="date" id="Dstop" name="Dstop" value="<%= timered %>"><br><br>
         <input type="submit" value="Save">
       </form> 
 

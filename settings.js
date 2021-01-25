@@ -1,13 +1,17 @@
 var fs = require('fs');
 
-module.exports.writeData = function writeData(name, email, light, temp_int, temp_ext, timer){
+module.exports.writeData = function writeData(name, email, light, temp_int, temp_ext, timer, timersh, timersd, timereh, timered,){
     var myOptions = {
         name: name,
         email: email,
         light: light,
         temp_int: temp_int,
         temp_ext: temp_ext,
-        timer: timer
+        timer: timer,
+        timersh: timersh,
+        timersd: timersd,
+        timereh: timereh,
+        timered: timered        
       };
       
       var data = JSON.stringify(myOptions);
