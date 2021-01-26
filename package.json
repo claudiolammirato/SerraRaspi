@@ -11,6 +11,8 @@
   "dependencies": {
     "ads1115": "^1.2.0",
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.6.0",
+    "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
@@ -19,6 +21,7 @@
     "mysql": "github:mysqljs/mysql",
     "node-dht-sensor": "^0.4.3",
     "onoff": "^6.0.1",
-    "raspberrypi-liquid-crystal": "^1.15.0"
+    "raspberrypi-liquid-crystal": "^1.15.0",
+    "react": "^17.0.1"
   }
 }

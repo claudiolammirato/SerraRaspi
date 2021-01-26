@@ -12,11 +12,11 @@ var mysql = require('mysql');
       console.log("Connected!");
     });
 
-    con.query("CREATE DATABASE IF NOT EXISTS serradb;", function (err, result, fields) {
+    con.query("CREATE DATABASE IF NOT EXISTS prova;", function (err, result, fields) {
       if (err) throw err;
       console.log(result);
     });
-    con.query("USE serradb;", function (err, result, fields) {
+    con.query("USE prova;", function (err, result, fields) {
       if (err) throw err;
       console.log(result);
     });
@@ -32,6 +32,16 @@ var mysql = require('mysql');
       console.log(result);
     });
 
+    con.query("SELECT * FROM parameters_table; ", function (err, result, fields) {
+      if (err) throw err;
+      //console.log(result);
+      var lowTotal = [];
+      for(item of result){
+      lowTotal.push(item.name);
+      }
+      console.log(lowTotal)
+    
+    });
     
 
     con.end();

@@ -38,3 +38,42 @@ var mysql = require('mysql');
             con.end();
         }
 
+
+    module.exports.database_read = function(callback){
+
+            var con = mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            insecureAuth : true
+            });
+            con.connect(function(err) {
+            if (err) throw err;
+            console.log("Database Read");
+            });
+
+            con.query("USE serradb;", function (err, result, fields) {
+
+                
+                if (err) throw err;
+                //console.log(result);
+                });
+
+            con.query("SELECT * FROM parameters_table; ", function (err, result, fields) {
+            
+            if (err) throw err;
+            var resultArray = Object.values(JSON.parse(JSON.stringify(result)))
+            //console.log(resultArray);
+            return callback(result);
+            
+            
+            //console.log(result);
+            //var lowTotal = [];
+            //for(item of result){
+            //lowTotal.push(item.name);
+            //}
+            //console.log(lowTotal)
+          
+          });
+          con.end();
+        }

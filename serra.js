@@ -15,6 +15,13 @@ const timer_l = require('./timer_light')
 //ejs setting
 app.set('view engine', 'ejs');
 
+//middleware link node modules
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+//app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use('/ch', express.static(__dirname + '/node_modules/chart.js')); // redirect Chartjs
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
  
@@ -121,6 +128,34 @@ app.get('/settings', function(req, res) {
   let val = JSON.parse(values);
   //console.log(val.Dstop)
   res.render('settings.ejs', {
+    name: val.name,
+    email: val.email,
+    light: val.light,
+    tempint: val.temp_int,
+    tempext: val.temp_ext,
+    timer: val.timer,
+    timersh: val.timersh,
+    timersd: val.timersd,
+    timereh: val.timereh,
+    timered: val.timered
+  }) 
+    
+});
+
+app.get('/graph', function(req, res) {
+  const values = settings.readData()
+  let val = JSON.parse(values);
+  console.log(val)
+  database.database_read(function(err,result){
+
+    if (err) {
+      console.log(err)
+  } else {
+      console.log(result)
+  }
+  })
+  
+  res.render('graph.ejs', {
     name: val.name,
     email: val.email,
     light: val.light,
