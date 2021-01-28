@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const port = 3000
+const port = 4000
+var mysql = require('mysql');
 
 //Import own function and values
 const {tempint, tempext} = require('./tempread');
@@ -143,30 +144,59 @@ app.get('/settings', function(req, res) {
 });
 
 app.get('/graph', function(req, res) {
-  const values = settings.readData()
-  let val = JSON.parse(values);
-  console.log(val)
-  database.database_read(function(err,result){
+  var con = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    insecureAuth : true
+    });
+    con.connect(function(err) {
+    if (err) throw err;
+    console.log("Database Read");
+    });
 
-    if (err) {
-      console.log(err)
-  } else {
-      console.log(result)
+    con.query("USE serradb;", function (err, result, fields) {
+
+        
+        if (err) throw err;
+        //console.log(result);
+        });
+
+    con.query("SELECT * FROM parameters_table; ", function (err, result) {
+    
+    if (err) throw err;
+    //var resultArray = Object.values(JSON.parse(JSON.stringify(result)))
+    //console.log(resultArray);
+    var temp_int = [];
+    var hum_int = [];
+    var temp_ext = [];
+    var hum_ext = [];
+    var moisture = [];
+    var water_level = [];
+    var date = [];
+    var chart =[];
+
+  for(var i in result){
+    temp_int.push(result [i].temp_int);
+    hum_int.push(result [i].hum_int);
+    temp_ext.push(result [i].temp_ext);
+    hum_ext.push(result [i].hum_ext);
+    moisture.push(result [i].moisture);
+    water_level.push(result [i].water_level);
+    date.push(result [i].date.toLocaleString());
   }
-  })
-  
+
   res.render('graph.ejs', {
-    name: val.name,
-    email: val.email,
-    light: val.light,
-    tempint: val.temp_int,
-    tempext: val.temp_ext,
-    timer: val.timer,
-    timersh: val.timersh,
-    timersd: val.timersd,
-    timereh: val.timereh,
-    timered: val.timered
+    temp_int: temp_int,
+    hum_int: hum_int,
+    temp_ext: temp_ext,
+    hum_ext: hum_ext,
+    moisture: moisture,
+    water_level: water_level,
+    date: date,
+    chart:chart
   }) 
+})
     
 });
 

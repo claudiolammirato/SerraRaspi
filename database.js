@@ -39,7 +39,7 @@ var mysql = require('mysql');
         }
 
 
-    module.exports.database_read = function(callback){
+    module.exports.database_read = async function(){
 
             var con = mysql.createConnection({
             host: process.env.DB_HOST,
@@ -47,24 +47,24 @@ var mysql = require('mysql');
             password: process.env.DB_PASS,
             insecureAuth : true
             });
-            con.connect(function(err) {
+            await con.connect(function(err) {
             if (err) throw err;
             console.log("Database Read");
             });
 
-            con.query("USE serradb;", function (err, result, fields) {
+            await con.query("USE serradb;", function (err, result, fields) {
 
                 
                 if (err) throw err;
                 //console.log(result);
                 });
 
-            con.query("SELECT * FROM parameters_table; ", function (err, result, fields) {
+            await con.query("SELECT * FROM parameters_table; ", function (err, result) {
             
             if (err) throw err;
             var resultArray = Object.values(JSON.parse(JSON.stringify(result)))
-            //console.log(resultArray);
-            return callback(result);
+            //console.log(result);
+            return Promise.resolve(result);
             
             
             //console.log(result);
@@ -75,5 +75,6 @@ var mysql = require('mysql');
             //console.log(lowTotal)
           
           });
+          
           con.end();
         }

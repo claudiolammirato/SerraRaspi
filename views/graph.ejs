@@ -27,15 +27,20 @@
   </body>
 
   <script>
+    //var myData = <%= temp_int %>
+    var myData = JSON.parse('<%-JSON.stringify(temp_int)%>');
+    //alert(myData)
+    //myLabel = <%= date %>
+    var myLabel = JSON.parse('<%-JSON.stringify(date)%>');
     var speedCanvas = document.getElementById('myChart').getContext('2d');
     Chart.defaults.global.defaultFontFamily = "Lato";
     Chart.defaults.global.defaultFontSize = 18;
 
     var speedData = {
-      labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
+      labels: myLabel,
       datasets: [{
-        label: "Car Speed (mph)",
-        data: [0, 59, 75, 20, 20, 55, 40],
+        label: "Internal Temperature",
+        data: myData,
       }]
     };
 
@@ -43,12 +48,33 @@
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-          yAxes: [{
-              ticks: {
-                  beginAtZero:true
-              }
-          }]
+    xAxes: [{
+      gridLines: {
+        display: false,
+        color: "black"
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Date",
+        fontColor: "red"
       }
+    }],
+    yAxes: [{
+      gridLines: {
+        color: "black",
+        borderDash: [2, 5],
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Internal temperature",
+        fontColor: "green"
+      },
+      ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 35
+                }
+    }]
+  }
     };
 
     var lineChart = new Chart(speedCanvas, {

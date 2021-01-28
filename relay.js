@@ -10,7 +10,7 @@ let stopBlinking = false;
 module.exports.LightOn = function exec() {
   try {
   const light = Number(val.light)
-  const led = new Gpio(25, 'out');
+  const led = new Gpio(light, 'out');
     
   if (stopBlinking) {
     return led.unexport();
