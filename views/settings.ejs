@@ -18,35 +18,39 @@
 
     <h2>Serra Settings</h2>
 
-    <form action="/settingssave" method="post"></form>
-
-      <label for="fname" class="form-label">Name:</label><br>
-      <input type="text" class="form-control" id="name" name="name" value="<%= name %>"><br><br>
-      <label for="lname" class="form-label">Email:</label><br>
-      <input type="text" class="form-control" id="email" name="email" value="<%= email %>"><br><br>
-        
-      <label for="lname">Timer:</label><br>
-      <select name="timer" id="timer">
-        <option>ON</option>
-        <option>OFF</option>
-        <option selected="selected">
-          <%= timer %>
-        </option>
-      </select><br>
-      <label for="lname">Timer Start:</label><br>
-      <input type="time" id="Tstart" name="Tstart" value="<%= timersh %>"><br><br>
-      <input type="date" id="Dstart" name="Dstart" value="<%= timersd %>"><br><br>
-      <label for="lname">Timer End:</label><br>
-      <input type="time" id="Tstop" name="Tstop" value="<%= timereh %>"><br><br>
-      <input type="date" id="Dstop" name="Dstop" value="<%= timered %>"><br><br>
-            
-      <label for="lname">Light PIN:</label><br>
-      <input type="text" id="light" name="light" value="<%= light %>"><br><br>
-      <label for="lname">Temperature Int PIN:</label><br>
-      <input type="text" id="tempint" name="tempint" value="<%= tempint %>"><br><br>
-      <label for="lname">Temperature Ext PIN:</label><br>
-      <input type="text" id="tempext" name="tempext" value="<%= tempext %>"><br><br>
-          
+    <form class= "form-horizontal" action="/settingssave" method="post"></form>
+    <div class="row">
+      <div class="col">
+        <label for="fname" class="form-label p-3">Name:</label><br>
+        <input type="text" class="form-control p-3" id="name" name="name" value="<%= name %>"><br><br>
+        <label for="lname" class="form-label p-3">Email:</label><br>
+        <input type="text" class="form-control p-3" id="email" name="email" value="<%= email %>"><br><br>
+      </div>
+      <div class="col">  
+        <label for="lname">Timer:</label><br>
+        <select name="timer" id="timer">
+          <option>ON</option>
+          <option>OFF</option>
+          <option selected="selected">
+            <%= timer %>
+          </option>
+        </select><br>
+        <label for="lname">Timer Start:</label><br>
+        <input type="time" id="Tstart" name="Tstart" value="<%= timersh %>"><br><br>
+        <input type="date" id="Dstart" name="Dstart" value="<%= timersd %>"><br><br>
+        <label for="lname">Timer End:</label><br>
+        <input type="time" id="Tstop" name="Tstop" value="<%= timereh %>"><br><br>
+        <input type="date" id="Dstop" name="Dstop" value="<%= timered %>"><br><br>
+      </div>  
+      <div class="col">        
+        <label for="lname">Light PIN:</label><br>
+        <input type="text" id="light" name="light" value="<%= light %>"><br><br>
+        <label for="lname">Temperature Int PIN:</label><br>
+        <input type="text" id="tempint" name="tempint" value="<%= tempint %>"><br><br>
+        <label for="lname">Temperature Ext PIN:</label><br>
+        <input type="text" id="tempext" name="tempext" value="<%= tempext %>"><br><br>
+      </div>
+    </div>    
       <input type="submit" value="Save">
     </form>
   </body>

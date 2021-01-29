@@ -21,8 +21,17 @@
   </head>
   <body>
     <%- include('partials/header') %>
-    <canvas id="ChartTI" width="1000" height="500"></canvas>
-    <canvas id="ChartHI" width="1000" height="500"></canvas>
+    <form action="/graph" method="post">
+      <label for="lname">Timer:</label><br>
+        <select name="interval" id="interval">
+          <option>20</option>
+          <option selected="selected">48</option>
+          <option>336</option>
+        </select><br>
+        <input type="submit" value="Save">
+    </form>
+    <canvas id="ChartTI" width="1800" height="400"></canvas>
+    <canvas id="ChartHI" width="1800" height="400"></canvas>
     
    
   </body>
@@ -123,8 +132,8 @@
         fontColor: "green"
       },
       ticks: {
-                    suggestedMin: 0,
-                    suggestedMax: 35
+                    suggestedMin: 30,
+                    suggestedMax: 70
                 }
     }]
   }

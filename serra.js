@@ -144,6 +144,13 @@ app.get('/settings', function(req, res) {
 });
 
 app.get('/graph', function(req, res) {
+  let interval;
+  if(req.query.interval === undefined){
+    interval = 48;
+  }else{
+    interval = req.query.interval;
+  }
+  
   var con = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -174,7 +181,15 @@ app.get('/graph', function(req, res) {
     var moisture = [];
     var water_level = [];
     var date = [];
-    var chart =[];
+    var temp_int_red = [];
+    var hum_int_red = [];
+    var temp_ext_red = [];
+    var hum_ext_red = [];
+    var moisture_red = [];
+    var water_level_red = [];
+    var date_red = [];
+
+    //console.log( Object.keys( result ).length ) ;
 
   for(var i in result){
     temp_int.push(result [i].temp_int);
@@ -185,16 +200,24 @@ app.get('/graph', function(req, res) {
     water_level.push(result [i].water_level);
     date.push(result [i].date.toLocaleString());
   }
+  for ( i = Object.keys( result ).length-interval; i<Object.keys( result ).length; i++){
+    temp_int_red.push(temp_int[i])
+    hum_int_red.push(hum_int[i])
+    temp_ext_red.push(temp_ext[i])
+    hum_ext_red.push(hum_ext[i])
+    moisture_red.push(moisture[i])
+    water_level_red.push(water_level[i])
+    date_red.push(date[i])
+  }
 
   res.render('graph.ejs', {
-    temp_int: temp_int,
-    hum_int: hum_int,
-    temp_ext: temp_ext,
-    hum_ext: hum_ext,
-    moisture: moisture,
-    water_level: water_level,
-    date: date,
-    chart:chart
+    temp_int: temp_int_red,
+    hum_int: hum_int_red,
+    temp_ext: temp_ext_red,
+    hum_ext: hum_ext_red,
+    moisture: moisture_red,
+    water_level: water_level_red,
+    date: date_red,
   }) 
 })
     
@@ -215,6 +238,13 @@ app.post('/lightoff', async function(req, res) {
   await relay.LightOff();
   res.redirect('/');
 })
+
+app.post('/graph', async function(req, res) {
+  const interval = req.body.interval;
+  //console.log(interval)
+  res.redirect('/graph?interval=' + interval);
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
