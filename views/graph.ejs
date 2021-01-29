@@ -21,31 +21,30 @@
   </head>
   <body>
     <%- include('partials/header') %>
-    <canvas id="myChart" width="300" height="300"></canvas>
+    <canvas id="ChartTI" width="1000" height="500"></canvas>
+    <canvas id="ChartHI" width="1000" height="500"></canvas>
     
    
   </body>
 
   <script>
-    //var myData = <%= temp_int %>
-    var myData = JSON.parse('<%-JSON.stringify(temp_int)%>');
-    //alert(myData)
-    //myLabel = <%= date %>
-    var myLabel = JSON.parse('<%-JSON.stringify(date)%>');
-    var speedCanvas = document.getElementById('myChart').getContext('2d');
+    //Graph Temp Internal
+    var myDataTI = JSON.parse('<%-JSON.stringify(temp_int)%>');
+    var myLabelTI = JSON.parse('<%-JSON.stringify(date)%>');
+    var tempint = document.getElementById('ChartTI').getContext('2d');
     Chart.defaults.global.defaultFontFamily = "Lato";
     Chart.defaults.global.defaultFontSize = 18;
 
-    var speedData = {
-      labels: myLabel,
+    var DataTI = {
+      labels: myLabelTI,
       datasets: [{
         label: "Internal Temperature",
-        data: myData,
+        data: myDataTI,
       }]
     };
 
-    var chartOptions = {
-      responsive: true,
+    var OptionsTI = {
+      responsive: false,
       maintainAspectRatio: false,
       scales: {
     xAxes: [{
@@ -77,10 +76,64 @@
   }
     };
 
-    var lineChart = new Chart(speedCanvas, {
+    var lineChart = new Chart(tempint, {
       type: 'line',
-      data: speedData,
-      options: chartOptions
+      data: DataTI,
+      options: OptionsTI
+    });
+
+    //Graph Hum Internal
+    var myDataHI = JSON.parse('<%-JSON.stringify(hum_int)%>');
+    var myLabelHI = JSON.parse('<%-JSON.stringify(date)%>');
+    var humint = document.getElementById('ChartHI').getContext('2d');
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+
+    var DataHI = {
+      labels: myLabelHI,
+      datasets: [{
+        label: "Internal Humidity",
+        data: myDataHI,
+      }]
+    };
+
+    var OptionsHI = {
+      responsive: false,
+      maintainAspectRatio: false,
+      scales: {
+    xAxes: [{
+      gridLines: {
+        display: false,
+        color: "black"
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Date",
+        fontColor: "red"
+      }
+    }],
+    yAxes: [{
+      gridLines: {
+        color: "black",
+        borderDash: [2, 5],
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Internal Humidity",
+        fontColor: "green"
+      },
+      ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 35
+                }
+    }]
+  }
+    };
+
+    var lineChart = new Chart(humint, {
+      type: 'line',
+      data: DataHI,
+      options: OptionsHI
     });
 </script>
 
