@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const port = 4000
+const port = 3000
 var mysql = require('mysql');
 
 //Import own function and values
@@ -112,14 +112,45 @@ var timer = toggleCalls();
 
 //routes
 app.get('/', function(req, res) {
+    
+retrieve_values().then(function([tint, text, moisture]) {
+  let tinthum
+  let tinttemp
+  let texthum
+  let texttemp
+  if(tint.humidity.toFixed(1)){
+    tinthum = tint.humidity.toFixed(1)
+    }else{
+      tinthum = "Hum Int sensor error" 
+    }
+    if(tint.temperature.toFixed(1)){
+      tinttemp = tint.temperature.toFixed(1)
+      }else{
+        tinttemp = "Temp Int sensor error" 
+      }
+    if(text.humidity.toFixed(1)){
+      texthum = text.humidity.toFixed(1)
+      }else{
+        texthum = "Hum Ext sensor error" 
+      }
+    if(text.temperature.toFixed(1)){
+      texttemp = text.temperature.toFixed(1)
+      }else{
+        texttemp = "Temp Ext sensor error" 
+      }
+    
+    const light = moisture[0]
+       
+    const moisture1 = moisture[1]
+    
  
-retrieve_values().then(function([tint, text, moisture]) {res.render('serra.ejs', {
-    tinthum: tint.humidity.toFixed(1),
-    tinttemp: tint.temperature.toFixed(1), 
-    texthum: text.humidity.toFixed(1), 
-    texttemp: text.temperature.toFixed(1),
-    light: moisture[0],
-    moisture: moisture[1]
+  res.render('serra.ejs', {
+    tinthum: tinthum,
+    tinttemp: tinttemp,
+    texthum: texthum, 
+    texttemp: texttemp,
+    light: light,
+    moisture: moisture1
   })});
   
 });
@@ -246,6 +277,6 @@ app.post('/graph', async function(req, res) {
 })
 
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

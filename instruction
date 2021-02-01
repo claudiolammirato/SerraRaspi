@@ -1,0 +1,49 @@
+pm2 start app.js
+
+PM2 startup
+The pm2 startup command will generate a script that will lunch PM2 on boot together with the applications that you configure to start.
+pm2 startup systemd
+will generate
+[PM2] Init System found: systemd
+[PM2] To setup the Startup Script, copy/paste the following command:
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+Copy the generated command and run it.
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/p
+This created a system unit that will start PM2 on boot. When the system will boot PM2 will resurrect from a dump file that is not created yet. To create it run
+pm2 save
+This will save the current state of PM2 (with app.js running) in a dump file that will be used when resurrecting PM2.
+
+That's it! Your application is currently running and in case of a restart, it will start when the system boots.
+
+PM2 daemon
+You will be able to check anytime the status of your application with pm2 list, pm2 status or pm2 show.
+$ pm2 list
+┌──────────┬────┬─────────┬──────┬─────┬────────┬─────────┬────────┬──────┬───────────┬──────┬──────────┐
+│ App name │ id │ version │ mode │ pid │ status │ restart │ uptime │ cpu  │ mem       │ user │ watching │
+├──────────┼────┼─────────┼──────┼─────┼────────┼─────────┼────────┼──────┼───────────┼──────┼──────────┤
+│ app      │ 0  │ N/A     │ fork │ 451 │ online │ 0       │ 96m    │ 0.2% │ 31.8 MB   │ pi   │ disabled │
+└──────────┴────┴─────────┴──────┴─────┴────────┴─────────┴────────┴──────┴───────────┴──────┴──────────┘
+$ pm2 show app
+┌───────────────────┬──────────────────────────────────┐
+│ status            │ online                           │
+│ name              │ app                              │
+│ version           │ N/A                              │
+│ restarts          │ 0                                │
+│ uptime            │ 97m                              │
+│ script path       │ /home/pi/app.js                  │
+│ script args       │ N/A                              │
+│ error log path    │ /home/pi/.pm2/logs/app-error.log │
+│ out log path      │ /home/pi/.pm2/logs/app-out.log   │
+│ pid path          │ /home/pi/.pm2/pids/app-0.pid     │
+│ interpreter       │ node                             │
+│ interpreter args  │ N/A                              │
+│ script id         │ 0                                │
+│ exec cwd          │ /home/pi                         │
+│ exec mode         │ fork_mode                        │
+│ node.js version   │ 11.10.0                          │
+│ node env          │ N/A                              │
+│ watch & reload    │ ✘                                │
+│ unstable restarts │ 0                                │
+│ created at        │ 2019-02-17T14:14:35.027Z         │
+└───────────────────┴──────────────────────────────────┘
+There is a lot of greatness within PM2 that you can use, read more about logs and processes below.
