@@ -51,19 +51,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // DB Config
-const db = require('./config/keys').mongoURI;
+//const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true ,useUnifiedTopology: true}
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => 
+//mongoose
+  //.connect(
+    //db,
+    //{ useNewUrlParser: true ,useUnifiedTopology: true}
+  //)
+  //.then(() => console.log('MongoDB Connected'))
+  //.catch(err => 
     //console.log(err)
-    console.log('MongoDB Error')
-    );
+    //console.log('MongoDB Error')
+    //);
 
 
 //routes
