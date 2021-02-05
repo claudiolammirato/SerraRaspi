@@ -32,6 +32,7 @@
     </form>
     <canvas id="ChartTI" width="1800" height="400"></canvas>
     <canvas id="ChartHI" width="1800" height="400"></canvas>
+    <canvas id="ChartMM" width="1800" height="400"></canvas>
     
    
   </body>
@@ -39,6 +40,8 @@
   <script>
     //Graph Temp Internal
     var myDataTI = JSON.parse('<%-JSON.stringify(temp_int)%>');
+    var myDataTE = JSON.parse('<%-JSON.stringify(temp_ext)%>');
+
     var myLabelTI = JSON.parse('<%-JSON.stringify(date)%>');
     var tempint = document.getElementById('ChartTI').getContext('2d');
     Chart.defaults.global.defaultFontFamily = "Lato";
@@ -48,7 +51,12 @@
       labels: myLabelTI,
       datasets: [{
         label: "Internal Temperature",
+        borderColor: "blue",
         data: myDataTI,
+      },
+      {
+        label: "External Temperature",
+        data: myDataTE,
       }]
     };
 
@@ -59,26 +67,26 @@
     xAxes: [{
       gridLines: {
         display: false,
-        color: "black"
+        color: "gray"
       },
       scaleLabel: {
         display: true,
         labelString: "Date",
-        fontColor: "red"
+        fontColor: "black"
       }
     }],
     yAxes: [{
       gridLines: {
-        color: "black",
+        color: "gray",
         borderDash: [2, 5],
       },
       scaleLabel: {
         display: true,
-        labelString: "Internal temperature",
-        fontColor: "green"
+        labelString: "Temperature",
+        fontColor: "gray"
       },
       ticks: {
-                    suggestedMin: 0,
+                    suggestedMin: 10,
                     suggestedMax: 35
                 }
     }]
@@ -93,6 +101,7 @@
 
     //Graph Hum Internal
     var myDataHI = JSON.parse('<%-JSON.stringify(hum_int)%>');
+    var myDataHE = JSON.parse('<%-JSON.stringify(hum_ext)%>');
     var myLabelHI = JSON.parse('<%-JSON.stringify(date)%>');
     var humint = document.getElementById('ChartHI').getContext('2d');
     Chart.defaults.global.defaultFontFamily = "Lato";
@@ -102,7 +111,12 @@
       labels: myLabelHI,
       datasets: [{
         label: "Internal Humidity",
+        borderColor: "blue",
         data: myDataHI,
+      },
+      {
+        label: "External Humidity",
+        data: myDataHE,
       }]
     };
 
@@ -113,27 +127,27 @@
     xAxes: [{
       gridLines: {
         display: false,
-        color: "black"
+        color: "gray"
       },
       scaleLabel: {
         display: true,
         labelString: "Date",
-        fontColor: "red"
+        fontColor: "black"
       }
     }],
     yAxes: [{
       gridLines: {
-        color: "black",
+        color: "gray",
         borderDash: [2, 5],
       },
       scaleLabel: {
         display: true,
-        labelString: "Internal Humidity",
-        fontColor: "green"
+        labelString: "Humidity",
+        fontColor: "gray"
       },
       ticks: {
-                    suggestedMin: 30,
-                    suggestedMax: 70
+                    suggestedMin: 40,
+                    suggestedMax: 60
                 }
     }]
   }
@@ -143,6 +157,66 @@
       type: 'line',
       data: DataHI,
       options: OptionsHI
+    });
+
+//Graph MM
+    var myDataM = JSON.parse('<%-JSON.stringify(moisture)%>');
+    var myDataW = JSON.parse('<%-JSON.stringify(water_level)%>');
+    var myLabelHI = JSON.parse('<%-JSON.stringify(date)%>');
+    var humint = document.getElementById('ChartMM').getContext('2d');
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+
+    var DataMW = {
+      labels: myLabelHI,
+      datasets: [{
+        label: "Moisture",
+        borderColor: "blue",
+        data: myDataM,
+      },
+      {
+        label: "Water Level",
+        data: myDataW,
+      }]
+    };
+
+    var OptionsMW = {
+      responsive: false,
+      maintainAspectRatio: false,
+      scales: {
+    xAxes: [{
+      gridLines: {
+        display: false,
+        color: "gray"
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Date",
+        fontColor: "black"
+      }
+    }],
+    yAxes: [{
+      gridLines: {
+        color: "gray",
+        borderDash: [2, 5],
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Levels",
+        fontColor: "gray"
+      },
+      ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 15000
+                }
+    }]
+  }
+    };
+
+    var lineChart = new Chart(humint, {
+      type: 'line',
+      data: DataMW,
+      options: OptionsMW
     });
 </script>
 

@@ -64,6 +64,119 @@ module.exports.LightOff = function exec() {
   };
  
 
+  // Fan Relay
+module.exports.fanOn = function exec() {
+  try {
+  //const light = Number(val.light)
+  const led = new Gpio(24, 'out');
+    
+  if (stopBlinking) {
+    return led.unexport();
+  }
+ 
+  led.read((err, value) => { // Asynchronous read
+    //console.log(value)
+    if (err) {
+      throw err;
+    }
+  })
+    led.write(0, err => { // Asynchronous write
+      if (err) {
+        throw err;
+      }
+    });
+  
+
+  }catch(err){
+    console.error(err);
+  
+  }
+ 
+  //setTimeout(blinkLed, 2000);
+};
+
+module.exports.fanOff = function exec() {
+  try{
+    const led = new Gpio(24, 'out');
+    if (stopBlinking) {
+      return led.unexport();
+    }
+   
+    led.read((err, value) => { // Asynchronous read
+      //console.log(value)
+      if (err) {
+        throw err;
+      }
+   
+      led.write(1, err => { // Asynchronous write
+        if (err) {
+          throw err;
+        }
+      });
+    });
+   
+  }catch (err){
+    console.error(err);
+  }
+    //setTimeout(blinkLed, 2000);
+  };
+
+  // Pump Relay
+module.exports.pumpOn = function exec() {
+  try {
+  //const light = Number(val.light)
+  const led = new Gpio(23, 'out');
+    
+  if (stopBlinking) {
+    return led.unexport();
+  }
+ 
+  led.read((err, value) => { // Asynchronous read
+    //console.log(value)
+    if (err) {
+      throw err;
+    }
+  })
+    led.write(0, err => { // Asynchronous write
+      if (err) {
+        throw err;
+      }
+    });
+  
+
+  }catch(err){
+    console.error(err);
+  
+  }
+ 
+  //setTimeout(blinkLed, 2000);
+};
+
+module.exports.pumpOff = function exec() {
+  try{
+    const led = new Gpio(23, 'out');
+    if (stopBlinking) {
+      return led.unexport();
+    }
+   
+    led.read((err, value) => { // Asynchronous read
+      //console.log(value)
+      if (err) {
+        throw err;
+      }
+   
+      led.write(1, err => { // Asynchronous write
+        if (err) {
+          throw err;
+        }
+      });
+    });
+   
+  }catch (err){
+    console.error(err);
+  }
+    //setTimeout(blinkLed, 2000);
+  };
  
 // Stop blinking the LED after 5 seconds
 //setTimeout(_ => stopBlinking = true, 10000);

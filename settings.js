@@ -1,10 +1,12 @@
 var fs = require('fs');
 
-module.exports.writeData = function writeData(name, email, light, temp_int, temp_ext, timer, timersh, timersd, timereh, timered,){
+module.exports.writeData = function writeData(name, email, light, fan, pump, temp_int, temp_ext, timer, timersh, timersd, timereh, timered){
     var myOptions = {
         name: name,
         email: email,
         light: light,
+        fan: fan,
+        pump: pump,
         temp_int: temp_int,
         temp_ext: temp_ext,
         timer: timer,

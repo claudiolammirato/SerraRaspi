@@ -18,6 +18,7 @@
     <div class="container-fluid">
         <div class="row mt-4 ml-4 mr-4 border text-center">
             <div class="col">
+                <h4>Relay Switches</h4>
                 <div class="row mt-4 mb-4">
                     <div class="col">
                         <form action="/lighton" method="POST">
@@ -32,25 +33,64 @@
                 </div>
                 <div class="row mt-4 mb-4">
                     <div class="col">
-                        <button type="button" class="btn btn-secondary btn-lg" disabled>Disabled</button>
+                        <form action="/fanon" method="POST">
+                            <button type="submit" class="btn btn-success">Fan Switch ON</button>
+                        </form>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-secondary btn-lg" disabled>Disabled</button>
+                        <form action="/fanoff" method="POST">
+                            <button type="submit" class="btn btn-danger">Fan Switch OFF</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        <form action="/pumpon" method="POST">
+                            <button type="submit" class="btn btn-success">Pump Switch ON</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <form action="/pumpoff" method="POST">
+                            <button type="submit" class="btn btn-danger">Pump Switch OFF</button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col border-left">
-                Internal Humidity: <%= tinthum %>%
-                Internal Temperature: <%= tinttemp %>°C
-                External Humidity: <%= texthum %>%
-                External Temperature: <%= texttemp %>°C
+                <h4>Temperature & Humidity</h4>
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        Internal Humidity: <%= tinthum %>%
+                    </div>
+                    <div class="col">
+                        Internal Temperature: <%= tinttemp %>°C
+                    </div>
+                </div>   
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        External Humidity: <%= texthum %>%
+                    </div>
+                    <div class="col">
+                        External Temperature: <%= texttemp %>°C
+                    </div>
+                </div>
             </div>
             <div class="col border-left">
-                <div class="text-center">
-                    Light: <%= light %>°C
+                <h4>Sensors Values</h4>
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        Light: <%= light %>
+                    </div>
                 </div>
-                <div class="text-center">
-                    Moisture : <%= moisture %>°C
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        Moisture : <%= moisture %>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        Water Level : <%= waterl %>
+                    </div>
                 </div>
             </div>
         </div>

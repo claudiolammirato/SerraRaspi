@@ -2,16 +2,18 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const port = 3000
-var mysql = require('mysql');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const session = require('express-session');
 
 //Import own function and values
 const {tempint, tempext} = require('./tempread');
 const {analog} = require('./ads1115')
-const relay = require('./relay');
 const database = require('./database')
 const lcd = require('./lcd')
 const settings = require('./settings')
 const timer_l = require('./timer_light')
+const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
 
 //ejs setting
 app.set('view engine', 'ejs');
@@ -25,9 +27,49 @@ app.use('/ch', express.static(__dirname + '/node_modules/chart.js')); // redirec
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
+// Express body parser
+app.use(express.urlencoded({ extended: true }));
+
+// Express session
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true
+  })
+);
  
 // parse application/json
 app.use(bodyParser.json())
+
+// Passport Config
+require('./config/passport')(passport);
+
+//Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// DB Config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true ,useUnifiedTopology: true}
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => 
+    //console.log(err)
+    console.log('MongoDB Error')
+    );
+
+
+//routes
+app.use('/users', require('./routes/login.js'));
+app.use('/', require('./routes/index.js'));
+
 
 //async function retrieve data
 async function retrieve_values () {
@@ -110,171 +152,7 @@ var timer = toggleCalls();
 
 //appasync().then(function([tint, text, moisture]) {console.log('done calling app() ' + tint.temperature +' '+ text.temperature+' '+moisture[1])});
 
-//routes
-app.get('/', function(req, res) {
-    
-retrieve_values().then(function([tint, text, moisture]) {
-  let tinthum
-  let tinttemp
-  let texthum
-  let texttemp
-  if(tint.humidity.toFixed(1)){
-    tinthum = tint.humidity.toFixed(1)
-    }else{
-      tinthum = "Hum Int sensor error" 
-    }
-    if(tint.temperature.toFixed(1)){
-      tinttemp = tint.temperature.toFixed(1)
-      }else{
-        tinttemp = "Temp Int sensor error" 
-      }
-    if(text.humidity.toFixed(1)){
-      texthum = text.humidity.toFixed(1)
-      }else{
-        texthum = "Hum Ext sensor error" 
-      }
-    if(text.temperature.toFixed(1)){
-      texttemp = text.temperature.toFixed(1)
-      }else{
-        texttemp = "Temp Ext sensor error" 
-      }
-    
-    const light = moisture[0]
-       
-    const moisture1 = moisture[1]
-    
- 
-  res.render('serra.ejs', {
-    tinthum: tinthum,
-    tinttemp: tinttemp,
-    texthum: texthum, 
-    texttemp: texttemp,
-    light: light,
-    moisture: moisture1
-  })});
-  
-});
 
-app.get('/settings', function(req, res) {
-  const values = settings.readData()
-  let val = JSON.parse(values);
-  //console.log(val.Dstop)
-  res.render('settings.ejs', {
-    name: val.name,
-    email: val.email,
-    light: val.light,
-    tempint: val.temp_int,
-    tempext: val.temp_ext,
-    timer: val.timer,
-    timersh: val.timersh,
-    timersd: val.timersd,
-    timereh: val.timereh,
-    timered: val.timered
-  }) 
-    
-});
-
-app.get('/graph', function(req, res) {
-  let interval;
-  if(req.query.interval === undefined){
-    interval = 48;
-  }else{
-    interval = req.query.interval;
-  }
-  
-  var con = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    insecureAuth : true
-    });
-    con.connect(function(err) {
-    if (err) throw err;
-    console.log("Database Read");
-    });
-
-    con.query("USE serradb;", function (err, result, fields) {
-
-        
-        if (err) throw err;
-        //console.log(result);
-        });
-
-    con.query("SELECT * FROM parameters_table; ", function (err, result) {
-    
-    if (err) throw err;
-    //var resultArray = Object.values(JSON.parse(JSON.stringify(result)))
-    //console.log(resultArray);
-    var temp_int = [];
-    var hum_int = [];
-    var temp_ext = [];
-    var hum_ext = [];
-    var moisture = [];
-    var water_level = [];
-    var date = [];
-    var temp_int_red = [];
-    var hum_int_red = [];
-    var temp_ext_red = [];
-    var hum_ext_red = [];
-    var moisture_red = [];
-    var water_level_red = [];
-    var date_red = [];
-
-    //console.log( Object.keys( result ).length ) ;
-
-  for(var i in result){
-    temp_int.push(result [i].temp_int);
-    hum_int.push(result [i].hum_int);
-    temp_ext.push(result [i].temp_ext);
-    hum_ext.push(result [i].hum_ext);
-    moisture.push(result [i].moisture);
-    water_level.push(result [i].water_level);
-    date.push(result [i].date.toLocaleString());
-  }
-  for ( i = Object.keys( result ).length-interval; i<Object.keys( result ).length; i++){
-    temp_int_red.push(temp_int[i])
-    hum_int_red.push(hum_int[i])
-    temp_ext_red.push(temp_ext[i])
-    hum_ext_red.push(hum_ext[i])
-    moisture_red.push(moisture[i])
-    water_level_red.push(water_level[i])
-    date_red.push(date[i])
-  }
-
-  res.render('graph.ejs', {
-    temp_int: temp_int_red,
-    hum_int: hum_int_red,
-    temp_ext: temp_ext_red,
-    hum_ext: hum_ext_red,
-    moisture: moisture_red,
-    water_level: water_level_red,
-    date: date_red,
-  }) 
-})
-    
-});
-
-app.post('/settingssave', function(req, res) {
-  //console.log(req.body.name)
-  settings.writeData(req.body.name, req.body.email, req.body.light, req.body.tempint, req.body.tempext, req.body.timer, req.body.Tstart, req.body.Dstart, req.body.Tstop, req.body.Dstop)
-  res.redirect('settings')   
-});
-
-app.post('/lighton', async function(req, res) {
-    await relay.LightOn();
-    res.redirect('/');
-})
-
-app.post('/lightoff', async function(req, res) {
-  await relay.LightOff();
-  res.redirect('/');
-})
-
-app.post('/graph', async function(req, res) {
-  const interval = req.body.interval;
-  //console.log(interval)
-  res.redirect('/graph?interval=' + interval);
-})
 
 
 app.listen(port, '0.0.0.0', () => {

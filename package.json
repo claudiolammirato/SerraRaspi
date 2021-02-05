@@ -11,17 +11,23 @@
   "license": "ISC",
   "dependencies": {
     "ads1115": "^1.2.0",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "find-config": "^1.0.0",
     "i2c-bus": "^5.2.1",
+    "mongoose": "^5.11.15",
     "mysql": "github:mysqljs/mysql",
     "node-dht-sensor": "^0.4.3",
     "onoff": "^6.0.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "raspberrypi-liquid-crystal": "^1.15.0",
     "react": "^17.0.1"
   }
