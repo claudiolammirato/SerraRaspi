@@ -18,7 +18,7 @@ module.exports = function(passport) {
       // Match user
       //User.findOne({
         //email: email
-        console.log(password)
+        //console.log(password)
         
  
           const config = {
